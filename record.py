@@ -52,9 +52,6 @@ if __name__ == '__main__':
         '--loop', action='store_true', dest='looping_enabled',
         help='attempt to loop sounds (should only be used '
              'with sounds with infinite sustain)')
-    output_options.add_argument(
-        '--ignore-clicks', action='store_true', dest='ignore_clicks',
-        help='turn off click/audio corruption checks (default false)')
 
     io_options = parser.add_argument_group('MIDI/Audio IO Options')
     io_options.add_argument(
@@ -96,6 +93,5 @@ if __name__ == '__main__':
         print_progress=args.print_progress,
         has_portamento=args.has_portamento,
         sample_asc=args.sample_asc,
-        ignore_clicks=args.ignore_clicks,
         sample_rate=args.sample_rate,
     )

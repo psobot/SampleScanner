@@ -11,7 +11,6 @@ from constants import bit_depth, SAMPLE_RATE
 from volume_leveler import level_volume
 from flacize import flacize_after_sampling
 from loop import find_loop_points
-from click_detector import find_clicks
 from collections import defaultdict
 from midi_helpers import all_notes_off, open_midi_port, CHANNEL_OFFSET
 from audio_helpers import sample_threshold_from_noise_floor, \
@@ -100,7 +99,6 @@ def generate_and_save_sample(
     keys,
     looping_enabled=False,
     print_progress=False,
-    ignore_clicks=False,
     audio_interface_name=None,
     sample_rate=SAMPLE_RATE,
 ):
@@ -122,36 +120,6 @@ def generate_and_save_sample(
 
         if data is not None:
             data = trim_data(data, threshold * 10, threshold)
-            clicks = find_clicks(data[0], data[1])
-            if clicks and not ignore_clicks:
-                if all([click in already_seen_clicks for click in clicks]):
-                    print "Same clicks found, assuming click misdetection."
-                else:
-                    already_seen_clicks.update(clicks)
-                    print "WARNING: %s clicks detected (@ %s), resampling." % (
-                        len(clicks),
-                        clicks
-                    )
-                    save_to_file(
-                        filename + ".try_" + str(tries) + ".aif",
-                        sample_width,
-                        data,
-                        sample_rate,
-                    )
-                    tries += 1
-                    attempt_map[len(clicks)].append(data)
-                    if tries < CLICK_RETRIES:
-                        continue
-                    else:
-                        num_clicks = min(attempt_map.keys())
-                        data = attempt_map[num_clicks][-1]
-                        print ("WARNING: Using sample with %d clicks "
-                               "after %d retries. (Saved to %s)") % (
-                            num_clicks,
-                            tries,
-                            filename
-                        )
-
             warn_on_clipping(data)
             loop = find_loop_points(data, SAMPLE_RATE) if looping_enabled else None
             save_to_file(filename, sample_width, data, sample_rate)
@@ -181,7 +149,6 @@ def sample_program(
     print_progress=False,
     has_portamento=False,
     sample_asc=False,
-    ignore_clicks=False,
     sample_rate=SAMPLE_RATE,
 ):
     if (key_range % 2) != 1:
@@ -296,7 +263,6 @@ def sample_program(
                         keys=keys,
                         looping_enabled=looping_enabled,
                         print_progress=print_progress,
-                        ignore_clicks=ignore_clicks,
                         audio_interface_name=audio_interface_name,
                         sample_rate=sample_rate,
                     )
