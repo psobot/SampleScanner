@@ -8,6 +8,7 @@ from tqdm import tqdm
 from tabulate import tabulate
 
 from utils import normalized, trim_mono_data
+from audio_helpers import fundamental_frequency
 from wavio import read_wave_file
 
 import matplotlib.pyplot as plt
@@ -35,17 +36,6 @@ def normalized_difference(lista, listb):
             lista[:compare] - listb[:compare]
         )
     ) / compare
-
-
-def fundamental_frequency(list, sampling_rate=1):
-    w = numpy.fft.rfft(list)
-    freqs = numpy.fft.fftfreq(len(w))
-
-    # Find the peak in the coefficients
-    # idx = numpy.argmax(numpy.abs(w[:len(w) / 2]))
-    idx = numpy.argmax(numpy.abs(w))
-    freq = freqs[idx]
-    return abs(freq * sampling_rate)
 
 
 def freq_diff(lista, listb, only_compare_first=100000):

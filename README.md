@@ -91,7 +91,7 @@ Misc Options:
 
 tl;dr: SampleScanner is &copy; 2015-2017 [Peter Sobot](https://petersobot.com), and released under the MIT License.
 
-```contentsof<cat LICENCE>
+```contentsof<cat LICENSE>
 The MIT License
 
 Copyright (c) 2015-2017 Peter Sobot https://petersobot.com github@petersobot.com

@@ -1,0 +1,18 @@
+language: python
+python:
+  - "2.7"
+# command to install dependencies
+install: "pip install -r requirements.txt"
+# command to run tests
+script:
+  - py.test
+  # Run pep8 on all .py files in all subfolders
+  # (Ignore "E402: module level import not at top of file")
+  - find . -name \*.py -exec pep8 --ignore=E402 {} +
+addons:
+  apt:
+    packages:
+    # required to pip install rtmidi and pyaudio
+    - libasound2-dev
+    - libjack-jackd2-dev
+    - portaudio19-dev

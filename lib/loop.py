@@ -2,9 +2,8 @@ import sys
 import numpy
 from tqdm import tqdm
 from truncate import read_wave_file
-from compare import fundamental_frequency
+from audio_helpers import fundamental_frequency
 
-import matplotlib.pyplot as plt
 QUANTIZE_FACTOR = 8
 
 
@@ -248,4 +247,5 @@ def process(aif, sample_rate=48000):
     plt.show()
 
 if __name__ == "__main__":
+    import matplotlib.pyplot as plt
     process(sys.argv[1])
