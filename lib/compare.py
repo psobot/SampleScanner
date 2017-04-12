@@ -69,8 +69,10 @@ def generate_diffs(filea, fileb):
     #     plt.plot(normalized(line[:10000]))
     # plt.show()
 
-    # louder_a = wavea[0] if numpy.amax(wavea[0]) > numpy.amax(wavea[1]) else wavea[1]
-    # louder_b = waveb[0] if numpy.amax(waveb[0]) > numpy.amax(waveb[1]) else waveb[1]
+    # louder_a = wavea[0] if numpy.amax(wavea[0]) \
+    #   > numpy.amax(wavea[1]) else wavea[1]
+    # louder_b = waveb[0] if numpy.amax(waveb[0]) \
+    #   > numpy.amax(waveb[1]) else waveb[1]
 
     # freqd = freq_diff(normalized(louder_a), normalized(louder_b))
 
@@ -150,19 +152,26 @@ def freq_shift():
         read_wave_file(os.path.join(root_dir, file)) for file in files
     ]
 
-    louder_a = wavea[0] if numpy.amax(wavea[0]) > numpy.amax(wavea[1]) else wavea[1]
-    louder_b = waveb[0] if numpy.amax(waveb[0]) > numpy.amax(waveb[1]) else waveb[1]
+    louder_a = wavea[0] if (numpy.amax(wavea[0]) >
+                            numpy.amax(wavea[1])) else wavea[1]
+    louder_b = waveb[0] if (numpy.amax(waveb[0]) >
+                            numpy.amax(waveb[1])) else waveb[1]
 
     freqd = freq_diff(normalized(louder_a), normalized(louder_b))
 
     waveb_shifted = [shift_freq(channel, freqd) for channel in waveb]
-    louder_shifted_b = waveb_shifted[0] if numpy.amax(waveb_shifted[0]) > numpy.amax(waveb_shifted[1]) else waveb_shifted[1]
+    louder_shifted_b = waveb_shifted[0] if (numpy.amax(waveb_shifted[0]) >
+                                            numpy.amax(waveb_shifted[1])) \
+        else waveb_shifted[1]
 
-    shifted_freqd = freq_diff(normalized(louder_a), normalized(louder_shifted_b))
+    shifted_freqd = freq_diff(
+        normalized(louder_a),
+        normalized(louder_shifted_b)
+    )
 
-    lefts_aligned = aligned_sublists(wavea[0], waveb[0])
+    # lefts_aligned = aligned_sublists(wavea[0], waveb[0])
     rights_aligned = aligned_sublists(wavea[1], waveb[1])
-    shifted_lefts_aligned = aligned_sublists(wavea[0], waveb_shifted[0])
+    # shifted_lefts_aligned = aligned_sublists(wavea[0], waveb_shifted[0])
 
     diffl = normalized_difference(*aligned_sublists(wavea[0], waveb[0]))
     diffr = normalized_difference(*aligned_sublists(wavea[1], waveb[1]))
@@ -170,12 +179,15 @@ def freq_shift():
     plt.plot(normalized(rights_aligned[0][:10000]))
     plt.plot(normalized(rights_aligned[1][:10000]))
     plt.plot(numpy.absolute(
-        normalized(rights_aligned[0][:10000]) - normalized(rights_aligned[1][:10000])
+        normalized(rights_aligned[0][:10000]) -
+        normalized(rights_aligned[1][:10000])
     ))
     plt.show()
 
-    shifted_diffl = normalized_difference(*aligned_sublists(wavea[0], waveb_shifted[0]))
-    shifted_diffr = normalized_difference(*aligned_sublists(wavea[1], waveb_shifted[1]))
+    shifted_diffl = normalized_difference(*aligned_sublists(wavea[0],
+                                                            waveb_shifted[0]))
+    shifted_diffr = normalized_difference(*aligned_sublists(wavea[1],
+                                                            waveb_shifted[1]))
 
     print files
     print 'diffs\t\t', diffl, diffr

@@ -122,9 +122,12 @@ if __name__ == "__main__":
     for filename in args.files:
         for group in SFZFile(open(filename).read()).groups:
             # Make one FLAC file per key, to get more compression.
-            output = sum([list(concat_samples(regions, filename, note_name(key)))
+            output = sum([list(concat_samples(regions,
+                                              filename,
+                                              note_name(key)))
                           for key, regions in
-                          tqdm(group_by_attr(group.regions, 'key').iteritems())], [])
+                          tqdm(group_by_attr(group.regions,
+                                             'key').iteritems())], [])
             print group.just_group()
             for region in output:
                 print region

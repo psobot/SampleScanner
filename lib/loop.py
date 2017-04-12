@@ -112,12 +112,14 @@ def fast_autocorrelate(x):
     Compute the autocorrelation of the signal, based on the properties of the
     power spectral density of the signal.
 
-    Note that the input's length may be reduced before the correlation is performed
-    due to a pathalogical case in numpy.fft: http://stackoverflow.com/a/23531074/679081
+    Note that the input's length may be reduced before the correlation is
+    performed due to a pathalogical case in numpy.fft:
+    http://stackoverflow.com/a/23531074/679081
 
     > The FFT algorithm used in np.fft performs very well (meaning O(n log n))
     > when the input length has many small prime factors, and very bad
-    > (meaning a naive DFT requiring O(n^2)) when the input size is a prime number.
+    > (meaning a naive DFT requiring O(n^2)) when the input size is a prime
+    > number.
     """
 
     # This is one simple way to ensure that the input array

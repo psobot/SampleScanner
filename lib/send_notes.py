@@ -102,9 +102,6 @@ def generate_and_save_sample(
     audio_interface_name=None,
     sample_rate=SAMPLE_RATE,
 ):
-    tries = 0
-    attempt_map = defaultdict(list)
-    already_seen_clicks = set()
     while True:
         sample_width, data, release_time = generate_sample(
             limit=limit,
@@ -121,7 +118,10 @@ def generate_and_save_sample(
         if data is not None:
             data = trim_data(data, threshold * 10, threshold)
             warn_on_clipping(data)
-            loop = find_loop_points(data, SAMPLE_RATE) if looping_enabled else None
+            if looping_enabled:
+                loop = find_loop_points(data, SAMPLE_RATE)
+            else:
+                loop = None
             save_to_file(filename, sample_width, data, sample_rate)
             return generate_region(
                 note, velocity, velocity_levels,

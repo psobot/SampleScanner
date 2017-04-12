@@ -57,7 +57,9 @@ def sliding_window(data, size, stepsize=1, padded=False, axis=-1, copy=True):
         )
 
     shape = list(data.shape)
-    shape[axis] = numpy.floor(data.shape[axis] / stepsize - size / stepsize + 1).astype(int)
+    shape[axis] = numpy.floor(
+        data.shape[axis] / stepsize - size / stepsize + 1
+    ).astype(int)
     shape.append(size)
 
     strides = list(data.strides)

@@ -1,4 +1,5 @@
 # SampleScanner
+[![Build Status](https://travis-ci.org/psobot/SampleScanner.svg?branch=master)](https://travis-ci.org/psobot/SampleScanner)
 
 ![SampleScanner Logo](https://cloud.githubusercontent.com/assets/213293/24964018/1dcb4092-1f6e-11e7-8b3b-47704e6c8aeb.png)
 
@@ -35,7 +36,7 @@ usage: samplescanner [-h] [--program-number PROGRAM_NUMBER]
                      [--velocity-levels VELOCITY_LEVELS [VELOCITY_LEVELS ...]]
                      [--key-skip KEY_RANGE] [--max-attempts MAX_ATTEMPTS]
                      [--limit LIMIT] [--has-portamento] [--sample-asc]
-                     [--no-flac] [--no-delete] [--loop] [--ignore-clicks]
+                     [--no-flac] [--no-delete] [--loop]
                      [--midi-port-name MIDI_PORT_NAME]
                      [--midi-channel MIDI_CHANNEL]
                      [--audio-interface-name AUDIO_INTERFACE_NAME]
@@ -69,7 +70,6 @@ Output Options:
                         compression
   --loop                attempt to loop sounds (should only be used with
                         sounds with infinite sustain)
-  --ignore-clicks       turn off click/audio corruption checks (default false)
 
 MIDI/Audio IO Options:
   --midi-port-name MIDI_PORT_NAME
