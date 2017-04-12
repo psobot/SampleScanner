@@ -3,7 +3,7 @@
 ![SampleScanner Logo](https://cloud.githubusercontent.com/assets/213293/24964018/1dcb4092-1f6e-11e7-8b3b-47704e6c8aeb.png)
 
 
-SampleScanner is a command-line tool to turn MIDI instruments (usually hardware) into virtual (software) instruments automatically. It's similar to the now-discontinued [Redmatica's _AutoSampler_](http://www.soundonsound.com/reviews/redmatica-autosampler) software (now part of Apple's [MainStage](https://441k.com/sampling-synths-with-auto-sampler-in-mainstage-3-412deb8f900e) package), but open-source and cross-platform.
+SampleScanner is a command-line tool to turn MIDI instruments (usually hardware) into virtual (software) instruments automatically. It's similar to [Redmatica's now-discontinued _AutoSampler_](http://www.soundonsound.com/reviews/redmatica-autosampler) software (now part of Apple's [MainStage](https://441k.com/sampling-synths-with-auto-sampler-in-mainstage-3-412deb8f900e)), but open-source and cross-platform.
 
 ## Features
 
