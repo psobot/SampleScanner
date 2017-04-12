@@ -1,0 +1,6 @@
+PyAudio==0.2.9
+midi==0.2.2
+python-rtmidi==1.0.0
+numpy==1.9.1
+tqdm==4.8.4
+tabulate==0.7.7
