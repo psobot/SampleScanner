@@ -214,15 +214,18 @@ def record_to_file(
 
 
 def save_to_file(path, sample_width, data, sample_rate=SAMPLE_RATE):
-    flattened = numpy.asarray(data.flatten('F'), dtype=NUMPY_DTYPE)
-    packstring = '<' + ('h' * len(flattened))
-    data = pack(packstring, *flattened)
-
     wf = wave.open(path, 'wb')
     wf.setnchannels(NUM_CHANNELS)
     wf.setsampwidth(sample_width)
     wf.setframerate(sample_rate)
-    wf.writeframes(data)
+
+    flattened = numpy.asarray(data.flatten('F'), dtype=NUMPY_DTYPE)
+
+    write_chunk_size = 512
+    for chunk_start in xrange(0, len(flattened), write_chunk_size):
+        chunk = flattened[chunk_start:chunk_start + write_chunk_size]
+        packstring = '<' + ('h' * len(chunk))
+        wf.writeframes(pack(packstring, *chunk))
     wf.close()
 
 
