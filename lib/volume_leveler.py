@@ -1,4 +1,3 @@
-import math
 import numpy
 import argparse
 from constants import bit_depth
@@ -14,10 +13,6 @@ def pairwise(iterable):
     a, b = tee(iterable)
     next(b, None)
     return izip(a, b)
-
-
-def percent_to_db(percent):
-    return 20. * math.log(percent)
 
 
 def max_amp(filename):

@@ -1,6 +1,6 @@
 import time
 import numpy
-from utils import note_name
+from utils import note_name, percent_to_db
 from record import record
 from constants import CLIPPING_THRESHOLD, \
     CLIPPING_CHECK_NOTE, \
@@ -60,9 +60,9 @@ def sample_threshold_from_noise_floor(bit_depth, audio_interface_name):
         numpy.amax(numpy.absolute(data)) /
         float(2 ** (bit_depth - 1))
     )
-    print "Noise floor has volume %8.8f%%" % (100 * noise_floor)
+    print "Noise floor has volume %8.8f dBFS" % percent_to_db(noise_floor)
     threshold = noise_floor * 1.1
-    print "Setting threshold to %8.8f%%" % (100 * threshold)
+    print "Setting threshold to %8.8f dBFS" % percent_to_db(threshold)
     return threshold
 
 
@@ -97,10 +97,10 @@ def check_for_clipping(
     for _ in xrange(0, 2):
         all_notes_off(midiout, midi_channel)
 
-    print "Maximum volume is around %8.8f%%" % (100 * max_volume)
+    print "Maximum volume is around %8.8f dBFS" % percent_to_db(max_volume)
     if max_volume >= CLIPPING_THRESHOLD:
-        print "Clipping detected (%2.2f >= %2.2f) at maximum volume!" % (
-            max_volume, CLIPPING_THRESHOLD
+        print "Clipping detected (%2.2f dBFS >= %2.2f dBFS) at max volume!" % (
+            percent_to_db(max_volume), percent_to_db(CLIPPING_THRESHOLD)
         )
         if EXIT_ON_CLIPPING:
             raise ValueError("Clipping detected at max volume!")

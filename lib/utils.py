@@ -1,5 +1,7 @@
 import itertools
 import numpy
+import math
+from numpy import inf
 
 from constants import default_silence_threshold, bit_depth
 from collections import defaultdict
@@ -27,6 +29,18 @@ def note_number(note_name):
 def warn_on_clipping(data, threshold=0.9999):
     if numpy.amax(numpy.absolute(data)) > ((2 ** (bit_depth - 1)) * threshold):
         print "WARNING: Clipping detected!"
+
+
+def sample_value_to_db(value, bit_depth=bit_depth):
+    if value == 0:
+        return -inf
+    return 20. * math.log(float(abs(value)) / (2 ** (bit_depth - 1)), 10)
+
+
+def percent_to_db(percent):
+    if percent == 0:
+        return -inf
+    return 20. * math.log(percent, 10)
 
 
 def trim_data(

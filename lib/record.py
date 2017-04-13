@@ -3,6 +3,7 @@ import numpy
 from struct import pack
 from math import sqrt
 from constants import bit_depth, NUMPY_DTYPE, SAMPLE_RATE
+from utils import percent_to_db
 
 import pyaudio
 import wave
@@ -108,19 +109,22 @@ def record(
             estimated_remaining_duration = 1
 
         if print_progress:
-            pct_loudness = [sqrt(x)
-                            for x in peak_in_buffer.astype(numpy.float) /
-                            float(2 ** (bit_depth - 1))]
+            raw_percentages = (
+                peak_in_buffer.astype(numpy.float) /
+                float(2 ** (bit_depth - 1))
+            )
+            dbfs = [percent_to_db(x) for x in raw_percentages]
+            pct_loudness = [min(1, max(0, 1 + db / 100.)) for db in dbfs]
             sys.stderr.write(ERASE)
             sys.stderr.write("\t%2.2f secs\t" % total_duration_seconds)
-            sys.stderr.write("%2.2f%% loudness\t\t|%s%s|\n" % (
-                100 * pct_loudness[0],
+            sys.stderr.write("% 7.2f dBFS\t\t|%s%s|\n" % (
+                dbfs[0],
                 int(40 * pct_loudness[0]) * '=',
                 int(40 * (1 - pct_loudness[0])) * ' ',
             ))
             sys.stderr.write(ERASE)
-            sys.stderr.write("\t\t\t%2.2f%% loudness\t\t|%s%s|\n" % (
-                100 * pct_loudness[1],
+            sys.stderr.write("\t\t\t% 7.2f dBFS\t\t|%s%s|\n" % (
+                dbfs[1],
                 int(40 * pct_loudness[1]) * '=',
                 int(40 * (1 - pct_loudness[1])) * ' ',
             ))
