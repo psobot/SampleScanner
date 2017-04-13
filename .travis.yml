@@ -5,7 +5,7 @@ python:
 install: "pip install -r requirements.txt"
 # command to run tests
 script:
-  - py.test
+  - python -m pytest tests/
   # Run pep8 on all .py files in all subfolders
   # (Ignore "E402: module level import not at top of file")
   - find . -name \*.py -exec pep8 --ignore=E402 {} +
