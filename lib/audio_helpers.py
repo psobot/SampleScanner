@@ -88,6 +88,11 @@ def check_for_clipping(
         print_progress=True,
         audio_interface_name=audio_interface_name,
     )
+
+    if data is None:
+        raise Exception(
+            "Can't check for clipping because all we recorded was silence.")
+
     max_volume = (
         numpy.amax(numpy.absolute(data)) /
         float(2 ** (bit_depth - 1))
