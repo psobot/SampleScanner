@@ -67,6 +67,9 @@ if __name__ == '__main__':
         '--audio-interface-name', type=str,
         help='name of audio input device to use')
     io_options.add_argument(
+        '--audio-interface-index', type=int, default=-1,
+        help='index of audio input device to use')
+    io_options.add_argument(
         '--sample-rate', type=int, default=48000,
         help='sample rate to use. audio interface must support this rate.')
 
@@ -87,6 +90,7 @@ if __name__ == '__main__':
         midi_port_name=args.midi_port_name,
         midi_port_index=args.midi_port_index,
         audio_interface_name=args.audio_interface_name,
+        audio_interface_index=args.audio_interface_index,
         program_number=args.program_number,
         flac=args.flac,
         velocity_levels=args.velocity_levels,

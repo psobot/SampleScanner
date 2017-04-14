@@ -1,7 +1,7 @@
 import os
 import time
 from tqdm import tqdm
-from record import save_to_file
+from record import save_to_file, get_input_device_name_by_index
 from sfzparser import SFZFile, Region
 from utils import trim_data, \
     note_name, \
@@ -143,6 +143,7 @@ def sample_program(
     midi_port_name=None,
     midi_port_index=None,
     audio_interface_name=None,
+    audio_interface_index=None,
     program_number=None,
     flac=True,
     velocity_levels=VELOCITIES,
@@ -162,6 +163,10 @@ def sample_program(
         midiout = open_midi_port(midi_port_name)
     else:
         midiout = open_midi_port_by_index(midi_port_index)
+
+    if not audio_interface_name:
+        audio_interface_name = get_input_device_name_by_index(
+            audio_interface_index)
 
     path_prefix = output_folder
     if program_number is not None:
