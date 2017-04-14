@@ -12,7 +12,10 @@ from volume_leveler import level_volume
 from flacize import flacize_after_sampling
 from loop import find_loop_points
 from collections import defaultdict
-from midi_helpers import all_notes_off, open_midi_port, CHANNEL_OFFSET
+from midi_helpers import all_notes_off, \
+    open_midi_port, \
+    open_midi_port_by_index, \
+    CHANNEL_OFFSET
 from audio_helpers import sample_threshold_from_noise_floor, \
     generate_sample, \
     check_for_clipping
@@ -138,6 +141,7 @@ def sample_program(
     max_attempts=8,
     midi_channel=1,
     midi_port_name=None,
+    midi_port_index=None,
     audio_interface_name=None,
     program_number=None,
     flac=True,
@@ -154,7 +158,10 @@ def sample_program(
     if (key_range % 2) != 1:
         raise NotImplementedError("Key skip must be an odd number for now.")
 
-    midiout = open_midi_port(midi_port_name)
+    if midi_port_name:
+        midiout = open_midi_port(midi_port_name)
+    else:
+        midiout = open_midi_port_by_index(midi_port_index)
 
     path_prefix = output_folder
     if program_number is not None:
