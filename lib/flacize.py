@@ -27,6 +27,8 @@ def create_flac(concat_filename, output_filename):
         '-y',
         '-f',
         'concat',
+        '-safe',
+        '0',
         '-i',
         concat_filename,
         '-c:a',
