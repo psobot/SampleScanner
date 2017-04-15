@@ -11,8 +11,7 @@ from constants import bit_depth, SAMPLE_RATE
 from volume_leveler import level_volume
 from flacize import flacize_after_sampling
 from loop import find_loop_points
-from collections import defaultdict
-from midi_helpers import all_notes_off, open_midi_port, CHANNEL_OFFSET
+from midi_helpers import open_midi_port, set_program_number
 from audio_helpers import sample_threshold_from_noise_floor, \
     generate_sample, \
     check_for_clipping
@@ -178,15 +177,7 @@ def sample_program(
     except IOError:
         regions = []
 
-    if program_number is not None:
-        print "Sending program change to program %d..." % program_number
-        midiout.send_message([
-            CHANNEL_OFFSET + midi_channel, 0xC0, program_number
-        ])
-
-    # All notes off, but like, a lot
-    for _ in xrange(0, 2):
-        all_notes_off(midiout, midi_channel)
+    set_program_number(midiout, midi_channel, program_number)
 
     threshold = sample_threshold_from_noise_floor(
         bit_depth,
