@@ -43,6 +43,15 @@ def percent_to_db(percent):
     return 20. * math.log(percent, 10)
 
 
+def dbfs_as_percent(dbfs, bit_depth=bit_depth):
+    """
+    Represent a dBFS value as a percentage, which can be used to render
+    a VU meter. Note this is _not_ the inverse of percent_to_db.
+    """
+    minimum_dbfs_value = sample_value_to_db(1, bit_depth)
+    return min(1., max(0., (dbfs / -minimum_dbfs_value) + 1))
+
+
 def trim_data(
     data,
     start_threshold=default_silence_threshold,

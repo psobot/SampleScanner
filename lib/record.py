@@ -1,9 +1,8 @@
 import sys
 import numpy
 from struct import pack
-from math import sqrt
 from constants import bit_depth, NUMPY_DTYPE, SAMPLE_RATE
-from utils import percent_to_db
+from utils import percent_to_db, dbfs_as_percent
 
 import pyaudio
 import wave
@@ -114,7 +113,7 @@ def record(
                 float(2 ** (bit_depth - 1))
             )
             dbfs = [percent_to_db(x) for x in raw_percentages]
-            pct_loudness = [min(1, max(0, 1 + db / 100.)) for db in dbfs]
+            pct_loudness = [dbfs_as_percent(db) for db in dbfs]
             sys.stderr.write(ERASE)
             sys.stderr.write("\t%2.2f secs\t" % total_duration_seconds)
             sys.stderr.write("% 7.2f dBFS\t\t|%s%s|\n" % (
