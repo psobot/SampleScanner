@@ -32,17 +32,17 @@ def open_midi_port(midi_port_name):
 def set_program_number(midiout, midi_channel, program_number):
     if program_number is not None:
         print "Sending program change to program %d..." % program_number
-        # Bank change (fine) to (program_number / 100)
+        # Bank change (fine) to (program_number / 128)
         midiout.send_message([
             CC_CHANNEL_OFFSET + midi_channel,
             0x20,
-            int(program_number / 100),
+            int(program_number / 128),
         ])
-        # Program change to program number % 100
+        # Program change to program number % 128
         midiout.send_message([
             CHANNEL_OFFSET + midi_channel,
             0xC0,
-            program_number % 100,
+            program_number % 128,
         ])
 
     # All notes off, but like, a lot
