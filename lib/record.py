@@ -11,8 +11,12 @@ CHUNK_SIZE = 1024
 NUM_CHANNELS = 2
 FORMAT = pyaudio.paInt16 if bit_depth == 16 else pyaudio.paInt24
 
-GO_UP = "\033[F"
-ERASE = "\033[2K"
+if not sys.platform == "win32":
+    GO_UP = "\033[F"
+    ERASE = "\033[2K"
+else:
+    GO_UP = "\n"
+    ERASE = ""
 
 
 def is_silent(snd_data, threshold):
@@ -23,23 +27,50 @@ def is_silent(snd_data, threshold):
     return maxval < threshold
 
 
-def get_input_device_index(py_audio, audio_interface_name=None):
-    info = py_audio.get_host_api_info_by_index(0)
-
+def get_input_device_names(py_audio, info):
     input_interface_names = {}
     for i in range(0, info.get('deviceCount')):
         device_info = py_audio.get_device_info_by_host_api_device_index(0, i)
         if device_info.get('maxInputChannels') > 0:
             input_interface_names[i] = device_info.get('name')
+    return input_interface_names
+
+
+def get_input_device_index(py_audio, audio_interface_name=None):
+    info = py_audio.get_host_api_info_by_index(0)
+    input_interface_names = get_input_device_names(py_audio, info)
 
     if audio_interface_name:
         for index, name in input_interface_names.iteritems():
             if audio_interface_name.lower() in name.lower():
                 return index
         else:
-            raise Exception("Could not find audio input %s in inputs %s!" % (
-                audio_interface_name, input_interface_names
-            ))
+            raise Exception(
+                "Could not find audio input '%s' in inputs:\n%s" % (
+                    audio_interface_name,
+                    list_input_devices(input_interface_names)))
+
+
+def get_input_device_name_by_index(audio_interface_index):
+    py_audio = pyaudio.PyAudio()
+    info = py_audio.get_host_api_info_by_index(0)
+    input_interface_names = get_input_device_names(py_audio, info)
+
+    for index, name in input_interface_names.iteritems():
+        if index == audio_interface_index:
+            return name
+    else:
+        raise Exception(
+            "Could not find audio input index %s in inputs:\n%s" % (
+                audio_interface_index,
+                list_input_devices(input_interface_names)))
+
+
+def list_input_devices(device_names):
+    lines = []
+    for index, name in sorted(device_names.iteritems()):
+        lines.append(u"{:3d}. {}".format(index, name))
+    return u"\n".join(lines).encode("ascii", "ignore")
 
 
 def record(

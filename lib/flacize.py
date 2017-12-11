@@ -27,6 +27,8 @@ def create_flac(concat_filename, output_filename):
         '-y',
         '-f',
         'concat',
+        '-safe',
+        '0',
         '-i',
         concat_filename,
         '-c:a',
@@ -35,10 +37,10 @@ def create_flac(concat_filename, output_filename):
         output_filename
     ]
     # sys.stderr.write("Calling '%s'...\n" % ' '.join(commandline))
-    subprocess.call(
+    subprocess.check_call(
         commandline,
-        stdout=open('/dev/null', 'w'),
-        stderr=open('/dev/null', 'w')
+        stdout=open(os.devnull, 'w'),
+        stderr=subprocess.STDOUT
     )
 
 

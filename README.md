@@ -38,8 +38,10 @@ usage: samplescanner [-h] [--program-number PROGRAM_NUMBER]
                      [--limit LIMIT] [--has-portamento] [--sample-asc]
                      [--no-flac] [--no-delete] [--loop]
                      [--midi-port-name MIDI_PORT_NAME]
+                     [--midi-port-index MIDI_PORT_INDEX]
                      [--midi-channel MIDI_CHANNEL]
                      [--audio-interface-name AUDIO_INTERFACE_NAME]
+                     [--audio-interface-index AUDIO_INTERFACE_INDEX]
                      [--sample-rate SAMPLE_RATE] [--print-progress]
                      output_folder
 
@@ -74,10 +76,14 @@ Output Options:
 MIDI/Audio IO Options:
   --midi-port-name MIDI_PORT_NAME
                         name of MIDI device to use
+  --midi-port-index MIDI_PORT_INDEX
+                        index of MIDI device to use
   --midi-channel MIDI_CHANNEL
                         MIDI channel to send messages on
   --audio-interface-name AUDIO_INTERFACE_NAME
                         name of audio input device to use
+  --audio-interface-index AUDIO_INTERFACE_INDEX
+                        index of audio input device to use
   --sample-rate SAMPLE_RATE
                         sample rate to use. audio interface must support this
                         rate.
