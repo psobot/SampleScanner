@@ -214,7 +214,8 @@ def sample_program(
                     'pitch_keycenter', None
                 )) == str(zone.center)])
         if already_sampled_region is None:
-            filename = os.path.join(path_prefix, filename_for(zone.center, velocity))
+            filename = os.path.join(
+                path_prefix, filename_for(zone.center, velocity))
 
             if print_progress:
                 print("Sampling %s at velocity %s..." % (
