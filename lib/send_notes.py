@@ -12,7 +12,7 @@ from constants import bit_depth, SAMPLE_RATE
 from volume_leveler import level_volume
 from flacize import flacize_after_sampling
 from loop import find_loop_points
-from midi_helpers import all_notes_off, \
+from midi_helpers import Midi, all_notes_off, \
     open_midi_port, \
     open_midi_port_by_index, \
     set_program_number, \
@@ -135,6 +135,7 @@ def sample_program(
     midi_port_index=None,
     audio_interface_name=None,
     audio_interface_index=None,
+    midi_controllers=[],
     program_number=None,
     flac=True,
     velocity_levels=VELOCITIES,
@@ -177,6 +178,9 @@ def sample_program(
     except IOError:
         regions = []
 
+    midi = Midi(midiout, channel=midi_channel)
+    for cc in midi_controllers:  # Send out any MIDI controller changes
+        midi.cc(cc[0], cc[1])
     set_program_number(midiout, midi_channel, program_number)
 
     threshold = sample_threshold_from_noise_floor(

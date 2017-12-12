@@ -26,6 +26,11 @@ def note_number(note_name):
     return 21 + NOTE_NAMES.index(note) + (12 * octave_number)
 
 
+def two_ints(value):
+    key, val = value.split(',')
+    return (int(key), int(val))
+
+
 def warn_on_clipping(data, threshold=0.9999):
     if numpy.amax(numpy.absolute(data)) > ((2 ** (bit_depth - 1)) * threshold):
         print("WARNING: Clipping detected!")

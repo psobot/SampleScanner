@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import argparse
-from lib.utils import note_number
+from lib.utils import note_number, two_ints
 from lib.send_notes import sample_program, VELOCITIES, MAX_ATTEMPTS
 
 
@@ -9,6 +9,10 @@ if __name__ == '__main__':
         description='create SFZ files from external audio devices'
     )
     sampling_options = parser.add_argument_group('Sampling Options')
+    sampling_options.add_argument(
+        '--cc', type=two_ints, help='Send MIDI CC before starting. '
+        'Separate CC# and value with a comma. Example: --cc "0,127" "64,65"',
+        nargs='*')
     sampling_options.add_argument(
         '--program-number', type=int,
         help='switch to a program number before recording')
@@ -91,6 +95,7 @@ if __name__ == '__main__':
         midi_port_index=args.midi_port_index,
         audio_interface_name=args.audio_interface_name,
         audio_interface_index=args.audio_interface_index,
+        midi_controllers=args.cc,
         program_number=args.program_number,
         flac=args.flac,
         velocity_levels=args.velocity_levels,
