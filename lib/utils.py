@@ -22,13 +22,13 @@ def note_name(note):
 
 def note_number(note_name):
     octave_number = int(note_name[-1])
-    note = note_name[:-1]
+    note = note_name[:-1].upper()
     return 21 + NOTE_NAMES.index(note) + (12 * octave_number)
 
 
 def warn_on_clipping(data, threshold=0.9999):
     if numpy.amax(numpy.absolute(data)) > ((2 ** (bit_depth - 1)) * threshold):
-        print "WARNING: Clipping detected!"
+        print("WARNING: Clipping detected!")
 
 
 def sample_value_to_db(value, bit_depth=bit_depth):
