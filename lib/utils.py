@@ -8,8 +8,8 @@ from collections import defaultdict
 
 
 NOTE_NAMES = [
-    'a', 'bb', 'b', 'c', 'db', 'd',
-    'eb', 'e', 'f', 'gb', 'g', 'ab'
+    'A', 'Bb', 'B', 'C', 'Db', 'D',
+    'Eb', 'E', 'F', 'Gb', 'G', 'Ab'
 ]
 
 
@@ -21,9 +21,15 @@ def note_name(note):
 
 
 def note_number(note_name):
+    """Return the MIDI key number from a note name.
+
+    The first character of ``note_name`` can be in lower or upper case.
+    """
+    name = note_name[0].upper()
+    if len(note_name) > 2:
+        name += note_name[1]
     octave_number = int(note_name[-1])
-    note = note_name[:-1].lower()
-    return 21 + NOTE_NAMES.index(note) + (12 * octave_number)
+    return 21 + NOTE_NAMES.index(name) + (12 * octave_number)
 
 
 def warn_on_clipping(data, threshold=0.9999):
