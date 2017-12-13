@@ -196,6 +196,11 @@ def sample_program(
         audio_interface_name
     )
 
+    # Remove repeated velocity levels that might exist in user input
+    temp_vel = {int(v) for v in velocity_levels}
+    # Sort velocity levels ascending
+    velocity_levels = sorted(temp_vel)
+
     groups = []
     note_regions = []
 
