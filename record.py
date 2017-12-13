@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+
+"""Command-line interface for SampleScanner."""
+
 import argparse
 from lib.utils import note_number, two_ints
 from lib.send_notes import sample_program, VELOCITIES, MAX_ATTEMPTS
@@ -10,9 +13,13 @@ if __name__ == '__main__':
     )
     sampling_options = parser.add_argument_group('Sampling Options')
     sampling_options.add_argument(
-        '--cc', type=two_ints, help='Send MIDI CC before starting. '
-        'Separate CC# and value with a comma. Example: --cc "0,127" "64,65"',
-        nargs='*')
+        '--cc-before', type=two_ints, help='Send MIDI CC before the program '
+        'change. Put comma between CC# and value. Example: '
+        '--cc 0,127 "64,65"', nargs='*')
+    sampling_options.add_argument(
+        '--cc-after', type=two_ints, help='Send MIDI CC after the program '
+        'change. Put comma between CC# and value. Example: '
+        '--cc 0,127 "64,65"', nargs='*')
     sampling_options.add_argument(
         '--program-number', type=int,
         help='switch to a program number before recording')
@@ -87,8 +94,9 @@ if __name__ == '__main__':
         midi_channel=args.midi_channel,
         midi_port_name=args.midi_port_name,
         audio_interface_name=args.audio_interface_name,
-        midi_controllers=args.cc,
+        cc_before=args.cc_before,
         program_number=args.program_number,
+        cc_after=args.cc_after,
         flac=args.flac,
         velocity_levels=args.velocity_levels,
         key_range=args.key_range,
