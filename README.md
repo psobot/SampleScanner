@@ -31,7 +31,8 @@ pip install -r requirements.txt
 Run `./samplescanner -h` for a full argument listing:
 
 ```contentsof<samplescanner -h>
-usage: samplescanner [-h] [--cc [CC [CC ...]]]
+usage: samplescanner [-h] [--cc-before [CC_BEFORE [CC_BEFORE ...]]]
+                     [--cc-after [CC_AFTER [CC_AFTER ...]]]
                      [--program-number PROGRAM_NUMBER] [--low-key LOW_KEY]
                      [--high-key HIGH_KEY]
                      [--velocity-levels VELOCITY_LEVELS [VELOCITY_LEVELS ...]]
@@ -50,8 +51,12 @@ optional arguments:
   -h, --help            show this help message and exit
 
 Sampling Options:
-  --cc [CC [CC ...]]    Send MIDI CC before starting. Separate CC# and value
-                        with a comma. Example: --cc "0,127" "64,65"
+  --cc-before [CC_BEFORE [CC_BEFORE ...]]
+                        Send MIDI CC before the program change. Put comma
+                        between CC# and value. Example: --cc 0,127 "64,65"
+  --cc-after [CC_AFTER [CC_AFTER ...]]
+                        Send MIDI CC after the program change. Put comma
+                        between CC# and value. Example: --cc 0,127 "64,65"
   --program-number PROGRAM_NUMBER
                         switch to a program number before recording
   --low-key LOW_KEY     key to start sampling from (key name, octave number)
