@@ -293,5 +293,5 @@ def sample_program(
             output_folder,
             groups,
             sfzfile,
-            cleanup_aif_files=True
+            cleanup_aif_files=cleanup_aif_files,
         )
