@@ -37,7 +37,7 @@ VOLUME_DIFF_THRESHOLD = 0.01
 
 
 def filename_for(note, velocity):
-    return '%s_v%s.aif' % (note_name(note), velocity)
+    return 'aif/%s_v%s.aif' % (note_name(note), velocity)
 
 
 def generate_region(zone, velocity, velocities, loop=None):
@@ -225,6 +225,9 @@ def sample_program(
         if already_sampled_region is None:
             filename = os.path.join(
                 path_prefix, filename_for(zone.center, velocity))
+            aif_directory = os.path.dirname(filename)
+            if not os.path.exists(aif_directory):
+                os.mkdir(aif_directory)
 
             if print_progress:
                 print("Sampling %s at velocity %s..." % (
