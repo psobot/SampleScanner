@@ -135,9 +135,9 @@ def sample_program(
     midi_port_index=None,
     audio_interface_name=None,
     audio_interface_index=None,
-    cc_before=[],
+    cc_before=None,
     program_number=None,
-    cc_after=[],
+    cc_after=None,
     flac=True,
     velocity_levels=VELOCITIES,
     key_range=1,
@@ -180,10 +180,10 @@ def sample_program(
         regions = []
 
     midi = Midi(midiout, channel=midi_channel)
-    for cc in cc_before:  # Send out MIDI controller changes
+    for cc in cc_before or []:  # Send out MIDI controller changes
         midi.cc(cc[0], cc[1])
     set_program_number(midiout, midi_channel, program_number)
-    for cc in cc_after:   # Send out MIDI controller changes
+    for cc in cc_after or []:   # Send out MIDI controller changes
         midi.cc(cc[0], cc[1])
 
     threshold = sample_threshold_from_noise_floor(
