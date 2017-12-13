@@ -14,6 +14,8 @@ class Midi(object):
 
     def cc(self, cc, val, channel=None):
         """Send a Continuous Controller change."""
+        cc = int(cc)
+        val = int(val)
         assert -1 < cc < 128
         assert -1 < val < 128
         print('Sending MIDI CC #{} with value {}.'.format(cc, val))

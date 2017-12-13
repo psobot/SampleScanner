@@ -32,6 +32,7 @@ def note_number(note_name):
 
 
 def two_ints(value):
+    """Type for argparse. Demands 2 integers separated by a comma."""
     key, val = value.split(',')
     return (int(key), int(val))
 
