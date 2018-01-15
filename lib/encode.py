@@ -181,11 +181,13 @@ if __name__ == "__main__":
         all_groups = SFZFile(open(filename).read()).groups
 
         if args.sprite_mode == 'all':
-            output = list(concat_samples(sum([group.regions for group in all_groups], []),
-                                         filename,
-                                         'all',
-                                         args.format,
-                                         args.quality))
+            output = list(
+                concat_samples(
+                    sum([group.regions for group in all_groups], []),
+                    filename,
+                    'all',
+                    args.format,
+                    args.quality))
 
         for group in all_groups:
             # Make one FLAC file per key, to get more compression.
@@ -197,14 +199,15 @@ if __name__ == "__main__":
                                                   args.quality))
                               for key, regions in
                               tqdm(group_by_attr(group.regions,
-                                                 ['pitch_keycenter', 'key']).items())], [])
+                                                 ['pitch_keycenter', 'key']
+                                                 ).items())], [])
             elif args.sprite_mode == 'sample':
-                output = sum([list(concat_samples(regions,
-                                                  filename,
-                                                  note_name(region.attributes['key']),
-                                                  args.format,
-                                                  args.quality))
-                              for region in tqdm(group.regions)], [])
+                output = sum([list(concat_samples(
+                    regions,
+                    filename,
+                    note_name(region.attributes['key']),
+                    args.format,
+                    args.quality)) for region in tqdm(group.regions)], [])
             print group.just_group()
 
             # Regions should have been modified in place
