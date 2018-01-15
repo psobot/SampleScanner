@@ -2,7 +2,7 @@ import os
 import re
 
 comments = re.compile(r'//.*$', re.M)
-lookfor = re.compile(r'<(\w+)>|(\w+)=([^\s]+)')
+lookfor = re.compile(r'<(\w+)>|(\w+)=([^\n]+)')
 
 
 class SFZFile(object):

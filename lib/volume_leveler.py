@@ -79,7 +79,7 @@ def level_volume(regions, dirname):
             ('amp_velcurve_%d' %
                 int(high.attributes['hivel'])): 1,
             ('amp_velcurve_%d' %
-                (int(high.attributes['lovel']) + 1)): diff,
+                int(high.attributes['lovel'])): diff,
         })
     # print the last region that didn't have a lower counterpart
     low = velsorted[-1]
@@ -90,7 +90,7 @@ def level_volume(regions, dirname):
         ('amp_velcurve_%d' %
             int(low.attributes['hivel'])): 1,
         ('amp_velcurve_%d' %
-            (int(low.attributes['lovel']) + 1)): 0,
+            int(low.attributes['lovel'])): 0,
     })
     return Group(velcurve, velsorted)
 

@@ -61,7 +61,7 @@ def sample_threshold_from_noise_floor(bit_depth, audio_interface_name):
         float(2 ** (bit_depth - 1))
     )
     print "Noise floor has volume %8.8f dBFS" % percent_to_db(noise_floor)
-    threshold = noise_floor * 1.1
+    threshold = noise_floor * 1.15
     print "Setting threshold to %8.8f dBFS" % percent_to_db(threshold)
     return threshold
 

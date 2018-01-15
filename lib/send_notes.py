@@ -36,12 +36,16 @@ def filename_for(note, velocity):
 
 
 def generate_region(note, velocity, velocities, keys=None, loop=None):
-    velocity_index = velocities.index(velocity)
+    sorted_velocities = sorted(velocities)
+    velocity_index = sorted_velocities.index(velocity)
     if velocity_index > 0:
-        lovel = velocities[velocity_index - 1] + 1
+        lovel = sorted_velocities[velocity_index - 1] + 1
     else:
         lovel = 1
     hivel = velocity
+
+    if hivel <= lovel:
+        raise ValueError("hivel %s greater than lovel %s!" % hivel, lovel)
 
     # Note: the velcurve should be:
     #   Velocity  | Amplitude
@@ -77,7 +81,7 @@ def generate_region(note, velocity, velocities, keys=None, loop=None):
     return Region(attributes)
 
 
-def all_notes(notes, velocities, ascending=False):
+def all_notes(notes, velocities, ascending=True):
     for note in (notes if ascending else reversed(notes)):
         for i, velocity in enumerate(velocities):
             yield note, velocity, (i == len(velocities) - 1)
@@ -208,7 +212,7 @@ def sample_program(
         velocity_levels,
         sample_asc
     ))):
-        keys = range(note + key_range_under, note + key_range_over + 1)
+        keys = range(note - key_range_under, note + key_range_over + 1)
         if not keys:
             keys = [note]
         already_sampled_region = first_non_none([
@@ -293,5 +297,5 @@ def sample_program(
             output_folder,
             groups,
             sfzfile,
-            cleanup_aif_files=True
+            cleanup_aif_files=cleanup_aif_files
         )

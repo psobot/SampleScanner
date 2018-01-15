@@ -105,6 +105,10 @@ def first_non_none(list):
         return None
 
 
+def one_of(x, *attrs):
+    return first_non_none([x.get(attr, None) for attr in attrs])
+
+
 def group_by_attr(data, attrs):
     if not isinstance(attrs, list):
         attrs = [attrs]
