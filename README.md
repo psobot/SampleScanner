@@ -9,7 +9,8 @@ SampleScanner is a command-line tool to turn MIDI instruments (usually hardware)
 ## Features
 
  - Uses native system integration (via `rtmidi` and `pyAudio`) for compatibility with all audio and MIDI devices
- - Outputs to the open-source [sfz 2.0 sample format](http://ariaengine.com/overview/sfz-format/), playable by [Sforzando](https://www.plogue.com/products/sforzando/) (and others)
+ - Outputs to the open-source [sfz 2.0 sample format](http://ariaengine.com/overview/sfz-format/), playable by [Sforzando](https://www.plogue.com/products/sforzando/), [HISE](https://github.com/christophhart/HISE), and others
+ - Can output to [HISE](https://github.com/christophhart/HISE) XML samplemaps, allowing creation of custom VSTs/AUs
  - Optional FLAC compression (on by default) to reduce sample set file size by up to 75%
  - Flexible configuration options and extensive command-line interface
  - Expermimental looping algorithm to extend perpetual samples
