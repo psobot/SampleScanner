@@ -4,8 +4,8 @@ from constants import bit_depth
 from sfzparser import SFZFile, Group
 from wavio import read_wave_file
 from utils import group_by_attr
-from flacize import full_path
 from itertools import tee, izip
+from utils import full_path
 
 
 def pairwise(iterable):

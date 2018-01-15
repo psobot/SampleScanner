@@ -1,3 +1,4 @@
+import os
 import itertools
 import numpy
 import math
@@ -11,6 +12,13 @@ NOTE_NAMES = [
     'A', 'Bb', 'B', 'C', 'Db', 'D',
     'Eb', 'E', 'F', 'Gb', 'G', 'Ab'
 ]
+
+
+def full_path(sfzfile, filename):
+    if os.path.isdir(sfzfile):
+        return os.path.join(sfzfile, filename)
+    else:
+        return os.path.join(os.path.dirname(sfzfile), filename)
 
 
 def note_name(note):

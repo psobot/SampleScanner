@@ -9,7 +9,7 @@ from utils import trim_data, \
     warn_on_clipping
 from constants import bit_depth, SAMPLE_RATE
 from volume_leveler import level_volume
-from flacize import flacize_after_sampling
+from encode import flacize_after_sampling
 from loop import find_loop_points
 from midi_helpers import open_midi_port, set_program_number
 from audio_helpers import sample_threshold_from_noise_floor, \

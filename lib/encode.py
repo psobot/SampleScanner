@@ -7,14 +7,7 @@ import subprocess
 from tqdm import tqdm
 from sfzparser import SFZFile, Group
 from wavio import read_wave_file
-from utils import group_by_attr, note_name
-
-
-def full_path(sfzfile, filename):
-    if os.path.isdir(sfzfile):
-        return os.path.join(sfzfile, filename)
-    else:
-        return os.path.join(os.path.dirname(sfzfile), filename)
+from utils import group_by_attr, note_name, full_path
 
 
 def length_of(filename):
