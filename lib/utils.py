@@ -7,28 +7,39 @@ from constants import default_silence_threshold, bit_depth
 from collections import defaultdict
 
 
-NOTE_NAMES = [
-    'A', 'Bb', 'B', 'C', 'Db', 'D',
-    'Eb', 'E', 'F', 'Gb', 'G', 'Ab'
-]
+NOTE_NAMES = ('C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B')
+C0_OFFSET = 12
 
 
 def note_name(note):
-    from_c = int(int(note) - 21)
+    """Return a note name from the MIDI note number."""
+    from_c = int(int(note) - C0_OFFSET)
     note_name = NOTE_NAMES[(from_c % 12)]
     octave_number = (from_c / 12)
     return "%s%d" % (note_name, octave_number)
 
 
 def note_number(note_name):
+    """Return the MIDI key number from a note name.
+
+    The first character of ``note_name`` can be in lower or upper case.
+    """
+    name = note_name[0].upper()
+    if len(note_name) > 2:
+        name += note_name[1]
     octave_number = int(note_name[-1])
-    note = note_name[:-1]
-    return 21 + NOTE_NAMES.index(note) + (12 * octave_number)
+    return C0_OFFSET + NOTE_NAMES.index(name) + (12 * octave_number)
+
+
+def two_ints(value):
+    """Type for argparse. Demands 2 integers separated by a comma."""
+    key, val = value.split(',')
+    return (int(key), int(val))
 
 
 def warn_on_clipping(data, threshold=0.9999):
     if numpy.amax(numpy.absolute(data)) > ((2 ** (bit_depth - 1)) * threshold):
-        print "WARNING: Clipping detected!"
+        print("WARNING: Clipping detected!")
 
 
 def sample_value_to_db(value, bit_depth=bit_depth):

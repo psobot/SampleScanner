@@ -31,15 +31,19 @@ pip install -r requirements.txt
 Run `./samplescanner -h` for a full argument listing:
 
 ```contentsof<samplescanner -h>
-usage: samplescanner [-h] [--program-number PROGRAM_NUMBER]
-                     [--low-key LOW_KEY] [--high-key HIGH_KEY]
+usage: samplescanner [-h] [--cc-before [CC_BEFORE [CC_BEFORE ...]]]
+                     [--cc-after [CC_AFTER [CC_AFTER ...]]]
+                     [--program-number PROGRAM_NUMBER] [--low-key LOW_KEY]
+                     [--high-key HIGH_KEY]
                      [--velocity-levels VELOCITY_LEVELS [VELOCITY_LEVELS ...]]
                      [--key-skip KEY_RANGE] [--max-attempts MAX_ATTEMPTS]
                      [--limit LIMIT] [--has-portamento] [--sample-asc]
                      [--no-flac] [--no-delete] [--loop]
                      [--midi-port-name MIDI_PORT_NAME]
+                     [--midi-port-index MIDI_PORT_INDEX]
                      [--midi-channel MIDI_CHANNEL]
                      [--audio-interface-name AUDIO_INTERFACE_NAME]
+                     [--audio-interface-index AUDIO_INTERFACE_INDEX]
                      [--sample-rate SAMPLE_RATE] [--print-progress]
                      output_folder
 
@@ -49,6 +53,12 @@ optional arguments:
   -h, --help            show this help message and exit
 
 Sampling Options:
+  --cc-before [CC_BEFORE [CC_BEFORE ...]]
+                        Send MIDI CC before the program change. Put comma
+                        between CC# and value. Example: --cc 0,127 "64,65"
+  --cc-after [CC_AFTER [CC_AFTER ...]]
+                        Send MIDI CC after the program change. Put comma
+                        between CC# and value. Example: --cc 0,127 "64,65"
   --program-number PROGRAM_NUMBER
                         switch to a program number before recording
   --low-key LOW_KEY     key to start sampling from (key name, octave number)
@@ -74,10 +84,14 @@ Output Options:
 MIDI/Audio IO Options:
   --midi-port-name MIDI_PORT_NAME
                         name of MIDI device to use
+  --midi-port-index MIDI_PORT_INDEX
+                        index of MIDI device to use
   --midi-channel MIDI_CHANNEL
                         MIDI channel to send messages on
   --audio-interface-name AUDIO_INTERFACE_NAME
                         name of audio input device to use
+  --audio-interface-index AUDIO_INTERFACE_INDEX
+                        index of audio input device to use
   --sample-rate SAMPLE_RATE
                         sample rate to use. audio interface must support this
                         rate.

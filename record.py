@@ -1,6 +1,9 @@
 #!/usr/bin/env python
+
+"""Command-line interface for SampleScanner."""
+
 import argparse
-from lib.utils import note_number
+from lib.utils import note_number, two_ints
 from lib.send_notes import sample_program, VELOCITIES, MAX_ATTEMPTS
 
 
@@ -9,6 +12,14 @@ if __name__ == '__main__':
         description='create SFZ files from external audio devices'
     )
     sampling_options = parser.add_argument_group('Sampling Options')
+    sampling_options.add_argument(
+        '--cc-before', type=two_ints, help='Send MIDI CC before the program '
+        'change. Put comma between CC# and value. Example: '
+        '--cc 0,127 "64,65"', nargs='*')
+    sampling_options.add_argument(
+        '--cc-after', type=two_ints, help='Send MIDI CC after the program '
+        'change. Put comma between CC# and value. Example: '
+        '--cc 0,127 "64,65"', nargs='*')
     sampling_options.add_argument(
         '--program-number', type=int,
         help='switch to a program number before recording')
@@ -58,11 +69,17 @@ if __name__ == '__main__':
         '--midi-port-name', type=str,
         help='name of MIDI device to use')
     io_options.add_argument(
+        '--midi-port-index', type=int, default=-1,
+        help='index of MIDI device to use')
+    io_options.add_argument(
         '--midi-channel', type=int, default=1,
         help='MIDI channel to send messages on')
     io_options.add_argument(
         '--audio-interface-name', type=str,
         help='name of audio input device to use')
+    io_options.add_argument(
+        '--audio-interface-index', type=int, default=-1,
+        help='index of audio input device to use')
     io_options.add_argument(
         '--sample-rate', type=int, default=48000,
         help='sample rate to use. audio interface must support this rate.')
@@ -82,8 +99,12 @@ if __name__ == '__main__':
         max_attempts=args.max_attempts,
         midi_channel=args.midi_channel,
         midi_port_name=args.midi_port_name,
+        midi_port_index=args.midi_port_index,
         audio_interface_name=args.audio_interface_name,
+        audio_interface_index=args.audio_interface_index,
+        cc_before=args.cc_before,
         program_number=args.program_number,
+        cc_after=args.cc_after,
         flac=args.flac,
         velocity_levels=args.velocity_levels,
         key_range=args.key_range,

@@ -94,3 +94,6 @@ ENV/
 
 # mkdocs documentation
 /site
+
+# Various
+*.pdf
