@@ -101,14 +101,18 @@ Misc Options:
                         can cause audio artifacts)
 ```
 
-## Copyright and License
+## Contributors, Copyright and License
 
-tl;dr: SampleScanner is &copy; 2015-2017 [Peter Sobot](https://petersobot.com), and released under the MIT License.
+tl;dr: SampleScanner is &copy; 2015-2018 [Peter Sobot](https://petersobot.com), and released under the MIT License.
+Many contributors have helped improve SampleScanner, including:
+
+- [Nando Florestan](https://github.com/nandoflorestan)
+- [Mike Verdone](https://github.com/sixohsix)
 
 ```contentsof<cat LICENSE>
 The MIT License
 
-Copyright (c) 2015-2017 Peter Sobot https://petersobot.com github@petersobot.com
+Copyright (c) 2015-2018 Peter Sobot https://petersobot.com github@petersobot.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
