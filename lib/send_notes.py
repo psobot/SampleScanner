@@ -215,9 +215,6 @@ def sample_program(
         velocity_levels,
         sample_asc
     ))):
-        # keys = range(note + key_range_under, note + key_range_over + 1)
-        # if not keys:
-        #     keys = [note]
         already_sampled_region = first_non_none([
             region for region in regions
             if region.attributes['hivel'] == str(velocity) and
