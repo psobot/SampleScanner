@@ -12,13 +12,14 @@ SampleScanner is a command-line tool to turn MIDI instruments (usually hardware)
  - Outputs to the open-source [sfz 2.0 sample format](http://ariaengine.com/overview/sfz-format/), playable by [Sforzando](https://www.plogue.com/products/sforzando/) (and others)
  - Optional FLAC compression (on by default) to reduce sample set file size by up to 75%
  - Flexible configuration options and extensive command-line interface
- - Expermimental looping algorithm to extend perpetual samples
+ - Experimental looping algorithm to extend perpetual samples
  - Clipping detection at sample time
- - 100% Python to enable cross-platform compatibility (only tested on macOS at the moment)
+ - 100% Python to enable cross-platform compatibility
+ - Has been known to work in Windows, Mac OS and Linux
 
 ## Installation
 
-Requires a working `python`, `pip`, and `ffmpeg` to be installed on the system.
+Requires a working `python` (version 2.7), `pip`, and `ffmpeg` to be installed on the system.
 
 ```
 git clone git@github.com:psobot/SampleScanner
