@@ -48,15 +48,9 @@ def open_midi_port(midi_port_name):
 
 
 def set_program_number(midiout, midi_channel, program_number):
+    """Send program change to `program_number` % 128."""
     if program_number is not None:
         print "Sending program change to program %d..." % program_number
-        # Bank change (fine) to (program_number / 128)
-        midiout.send_message([
-            CC_CHANNEL_OFFSET + midi_channel,
-            0x20,
-            int(program_number / 128),
-        ])
-        # Program change to program number % 128
         midiout.send_message([
             CHANNEL_OFFSET + midi_channel,
             0xC0,
