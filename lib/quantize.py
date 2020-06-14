@@ -1,8 +1,8 @@
 import os
 import sys
 import argparse
-from sfzparser import SFZFile
-from utils import group_by_attr
+from .sfzparser import SFZFile
+from .utils import group_by_attr
 import itertools
 from collections import defaultdict
 
@@ -14,8 +14,8 @@ args = parser.parse_args()
 
 
 def quantize_pitch(regions, pitch_levels=25):
-    lowestkey = min(map(lambda x: int(x.attributes['key']), regions))
-    highestkey = max(map(lambda x: int(x.attributes['key']), regions))
+    lowestkey = min([int(x.attributes['key']) for x in regions])
+    highestkey = max([int(x.attributes['key']) for x in regions])
 
     keyspan = highestkey - lowestkey
     pitch_skip = keyspan / pitch_levels
@@ -25,17 +25,17 @@ def quantize_pitch(regions, pitch_levels=25):
 
     # a dict of sample_pitch -> [lokey, hikey, pitch_keycenter]
     pitchmapping = {}
-    for key in xrange(
+    for key in range(
             lowestkey + (pitch_skip / 2),
             highestkey + 1 + (pitch_skip / 2),
             pitch_skip):
         pitchmapping[key] = {
             'lokey': key - (pitch_skip / 2),
             'pitch_keycenter': key,
-            'hikey': key + (pitch_skip / 2) - (0 if evenly_divided else 1),
+            'hikey': key + int(pitch_skip / 2) - (0 if evenly_divided else 1),
         }
 
-    for key, regions in group_by_attr(regions, 'key').iteritems():
+    for key, regions in group_by_attr(regions, 'key').items():
         if int(key) in pitchmapping:
             for region in regions:
                 region.attributes.update(pitchmapping[int(key)])
@@ -44,8 +44,8 @@ def quantize_pitch(regions, pitch_levels=25):
 
 
 def quantize_velocity(regions, velocity_levels=5):
-    lowestvel = min(map(lambda x: int(x.attributes['xfin_loivel']), regions))
-    highestvel = max(map(lambda x: int(x.attributes['xfin_hivel']), regions))
+    lowestvel = min([int(x.attributes['xfin_loivel']) for x in regions])
+    highestvel = max([int(x.attributes['xfin_hivel']) for x in regions])
 
     velspan = 127
     pitch_skip = velspan / velocity_levels
@@ -55,17 +55,17 @@ def quantize_velocity(regions, velocity_levels=5):
 
     # a dict of sample_pitch -> [lokey, hikey, pitch_keycenter]
     pitchmapping = {}
-    for key in xrange(
-            lowestkey + (pitch_skip / 2),
-            highestkey + 1 + (pitch_skip / 2),
+    for key in range(
+            lowestkey + int(pitch_skip / 2),
+            highestkey + 1 + int(pitch_skip / 2),
             pitch_skip):
         pitchmapping[key] = {
-            'lokey': key - (pitch_skip / 2),
+            'lokey': key - int(pitch_skip / 2),
             'pitch_keycenter': key,
-            'hikey': key + (pitch_skip / 2) - (0 if evenly_divided else 1),
+            'hikey': key + int(pitch_skip / 2) - (0 if evenly_divided else 1),
         }
 
-    for key, regions in group_by_attr(regions, 'key').iteritems():
+    for key, regions in group_by_attr(regions, 'key').items():
         if int(key) in pitchmapping:
             for region in regions:
                 region.attributes.update(pitchmapping[int(key)])
@@ -111,6 +111,6 @@ if __name__ == "__main__":
             )
         )
         for region in output:
-            print region
+            print(region)
         # for group in groups:
         #     print group

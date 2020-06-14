@@ -1,8 +1,8 @@
 import sys
 import numpy
 from struct import pack
-from constants import bit_depth, NUMPY_DTYPE, SAMPLE_RATE
-from utils import percent_to_db, dbfs_as_percent
+from .constants import bit_depth, NUMPY_DTYPE, SAMPLE_RATE
+from .utils import percent_to_db, dbfs_as_percent
 
 import pyaudio
 import wave
@@ -41,7 +41,7 @@ def get_input_device_index(py_audio, audio_interface_name=None):
     input_interface_names = get_input_device_names(py_audio, info)
 
     if audio_interface_name:
-        for index, name in input_interface_names.iteritems():
+        for index, name in input_interface_names.items():
             if audio_interface_name.lower() in name.lower():
                 return index
         else:
@@ -56,7 +56,7 @@ def get_input_device_name_by_index(audio_interface_index):
     info = py_audio.get_host_api_info_by_index(0)
     input_interface_names = get_input_device_names(py_audio, info)
 
-    for index, name in input_interface_names.iteritems():
+    for index, name in input_interface_names.items():
         if index == audio_interface_index:
             return name
     else:
@@ -68,9 +68,9 @@ def get_input_device_name_by_index(audio_interface_index):
 
 def list_input_devices(device_names):
     lines = []
-    for index, name in sorted(device_names.iteritems()):
-        lines.append(u"{:3d}. {}".format(index, name))
-    return u"\n".join(lines).encode("ascii", "ignore")
+    for index, name in sorted(device_names.items()):
+        lines.append("{:3d}. {}".format(index, name))
+    return "\n".join(lines).encode("ascii", "ignore")
 
 
 def record(
@@ -256,7 +256,7 @@ def save_to_file(path, sample_width, data, sample_rate=SAMPLE_RATE):
     flattened = numpy.asarray(data.flatten('F'), dtype=NUMPY_DTYPE)
 
     write_chunk_size = 512
-    for chunk_start in xrange(0, len(flattened), write_chunk_size):
+    for chunk_start in range(0, len(flattened), write_chunk_size):
         chunk = flattened[chunk_start:chunk_start + write_chunk_size]
         packstring = '<' + ('h' * len(chunk))
         wf.writeframes(pack(packstring, *chunk))
@@ -264,5 +264,5 @@ def save_to_file(path, sample_width, data, sample_rate=SAMPLE_RATE):
 
 
 if __name__ == '__main__':
-    print record_to_file('./demo.wav', sys.argv[1] if sys.argv[1] else None)
+    print(record_to_file('./demo.wav', sys.argv[1] if sys.argv[1] else None))
     print("done - result written to demo.wav")

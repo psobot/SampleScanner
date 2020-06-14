@@ -1,13 +1,13 @@
 import sys
-from wavio import read_wave_file
-from utils import start_of, end_of
+from .wavio import read_wave_file
+from .utils import start_of, end_of
 
 
 def chop(aif):
     file = read_wave_file(aif)
     start, end = min([start_of(chan) for chan in file]), \
         max([end_of(chan) for chan in file])
-    print aif, start, end, float(end) / len(file[0])
+    print(aif, start, end, float(end) / len(file[0]))
 
     # outfile = aif + '.chopped.aif'
     # r = wave.open(aif, 'rb')

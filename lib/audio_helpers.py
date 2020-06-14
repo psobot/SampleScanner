@@ -1,12 +1,12 @@
 import time
 import numpy
-from utils import note_name, percent_to_db
-from record import record
-from constants import CLIPPING_THRESHOLD, \
+from .utils import note_name, percent_to_db
+from .record import record
+from .constants import CLIPPING_THRESHOLD, \
     CLIPPING_CHECK_NOTE, \
     EXIT_ON_CLIPPING, \
     SAMPLE_RATE
-from midi_helpers import all_notes_off, CHANNEL_OFFSET
+from .midi_helpers import all_notes_off, CHANNEL_OFFSET
 
 
 def generate_sample(
@@ -46,7 +46,7 @@ def generate_sample(
 
 def sample_threshold_from_noise_floor(bit_depth, audio_interface_name):
     time.sleep(1)
-    print "Sampling noise floor..."
+    print("Sampling noise floor...")
     sample_width, data, release_time = record(
         limit=2.0,
         after_start=None,
@@ -60,9 +60,9 @@ def sample_threshold_from_noise_floor(bit_depth, audio_interface_name):
         numpy.amax(numpy.absolute(data)) /
         float(2 ** (bit_depth - 1))
     )
-    print "Noise floor has volume %8.8f dBFS" % percent_to_db(noise_floor)
+    print("Noise floor has volume %8.8f dBFS" % percent_to_db(noise_floor))
     threshold = noise_floor * 1.1
-    print "Setting threshold to %8.8f dBFS" % percent_to_db(threshold)
+    print("Setting threshold to %8.8f dBFS" % percent_to_db(threshold))
     return threshold
 
 
@@ -74,9 +74,9 @@ def check_for_clipping(
     audio_interface_name,
 ):
     time.sleep(1)
-    print "Checking for clipping and balance on note %s..." % (
+    print("Checking for clipping and balance on note %s..." % (
         note_name(CLIPPING_CHECK_NOTE)
-    )
+    ))
 
     sample_width, data, release_time = generate_sample(
         limit=2.0,
@@ -99,14 +99,14 @@ def check_for_clipping(
     )
 
     # All notes off, but like, a lot, again
-    for _ in xrange(0, 2):
+    for _ in range(0, 2):
         all_notes_off(midiout, midi_channel)
 
-    print "Maximum volume is around %8.8f dBFS" % percent_to_db(max_volume)
+    print("Maximum volume is around %8.8f dBFS" % percent_to_db(max_volume))
     if max_volume >= CLIPPING_THRESHOLD:
-        print "Clipping detected (%2.2f dBFS >= %2.2f dBFS) at max volume!" % (
+        print("Clipping detected (%2.2f dBFS >= %2.2f dBFS) at max volume!" % (
             percent_to_db(max_volume), percent_to_db(CLIPPING_THRESHOLD)
-        )
+        ))
         if EXIT_ON_CLIPPING:
             raise ValueError("Clipping detected at max volume!")
 

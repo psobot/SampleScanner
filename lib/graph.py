@@ -7,7 +7,7 @@ import traceback
 from tqdm import tqdm
 from tabulate import tabulate
 
-from wavio import read_wave_file
+from .wavio import read_wave_file
 
 import matplotlib.pyplot as plt
 
