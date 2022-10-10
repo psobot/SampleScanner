@@ -19,7 +19,7 @@ SampleScanner is a command-line tool to turn MIDI instruments (usually hardware)
 
 ## Installation
 
-Requires a working `python` (version 2.7), `pip`, and `ffmpeg` to be installed on the system.
+Requires a working `python` (version 3.10), `pip`, and `ffmpeg` to be installed on the system.
 
 ```
 git clone git@github.com:psobot/SampleScanner
@@ -29,7 +29,7 @@ pip install -r requirements.txt
 
 ## How to run
 
-Run `./samplescanner -h` for a full argument listing:
+Run `./samplescanner.py -h` for a full argument listing:
 
 ```contentsof<samplescanner -h>
 usage: samplescanner [-h] [--cc-before [CC_BEFORE [CC_BEFORE ...]]]
