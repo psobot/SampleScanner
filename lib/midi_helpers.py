@@ -1,7 +1,6 @@
 import time
 import rtmidi
 
-
 CHANNEL_OFFSET = 0x90 - 1
 CC_CHANNEL_OFFSET = 0xB0 - 1
 
@@ -37,6 +36,7 @@ def all_notes_off(midiout, midi_channel):
 def open_midi_port(midi_port_name):
     midiout = rtmidi.MidiOut()
     ports = midiout.get_ports()
+
     for i, port_name in enumerate(ports):
         if not midi_port_name or midi_port_name.lower() in port_name.lower():
             midiout.open_port(i)

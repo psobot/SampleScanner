@@ -5,6 +5,7 @@ import time
 import argparse
 import subprocess
 from tqdm import tqdm
+
 from .sfzparser import SFZFile, Group
 from .wavio import read_wave_file
 from .utils import group_by_attr, note_name
@@ -128,8 +129,8 @@ if __name__ == "__main__":
                                               filename,
                                               note_name(key)))
                           for key, regions in
-                          tqdm(iter(group_by_attr(group.regions,
-                                             'key').items()))], [])
+                          tqdm(group_by_attr(group.regions,
+                                             'key').items())], [])
             print(group.just_group())
             for region in output:
                 print(region)

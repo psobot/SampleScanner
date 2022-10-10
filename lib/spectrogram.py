@@ -8,7 +8,7 @@ import sys
 import numpy as np
 from matplotlib import pyplot as plt
 from numpy.lib import stride_tricks
-from .wavio import read_wave_file
+from wavio import read_wave_file
 
 
 def stft(sig, frame_size, overlap_fac=0.5, window=np.hanning):

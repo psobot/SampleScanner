@@ -3,7 +3,7 @@ import wave
 import numpy
 import subprocess
 
-from .constants import NUMPY_DTYPE
+from .consts import NUMPY_DTYPE
 
 
 def read_flac_file(filename, use_numpy=False):

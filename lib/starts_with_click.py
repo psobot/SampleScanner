@@ -1,6 +1,6 @@
 import sys
-from .wavio import read_wave_file
-from .constants import bit_depth
+from wavio import read_wave_file
+from consts import bit_depth
 
 default_threshold_samples = (0.001 * float(2 ** (bit_depth - 1)))
 

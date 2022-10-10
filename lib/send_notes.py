@@ -1,6 +1,7 @@
 import os
 import time
 from tqdm import tqdm
+
 from .record import save_to_file, get_input_device_name_by_index
 from .sfzparser import SFZFile, Region
 from .pitch import compute_zones, Zone
@@ -8,7 +9,7 @@ from .utils import trim_data, \
     note_name, \
     first_non_none, \
     warn_on_clipping
-from .constants import bit_depth, SAMPLE_RATE
+from .consts import bit_depth, SAMPLE_RATE
 from .volume_leveler import level_volume
 from .flacize import flacize_after_sampling
 from .loop import find_loop_points

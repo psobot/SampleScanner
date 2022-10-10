@@ -3,7 +3,8 @@ import numpy
 import math
 from numpy import inf
 
-from .constants import default_silence_threshold, bit_depth
+from .consts import default_silence_threshold, bit_depth
+
 from collections import defaultdict
 
 

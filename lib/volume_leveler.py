@@ -1,10 +1,13 @@
 import numpy
 import argparse
-from .constants import bit_depth
+
+from .consts import bit_depth
 from .sfzparser import SFZFile, Group
 from .wavio import read_wave_file
 from .utils import group_by_attr
 from .flacize import full_path
+
+#from itertools import tee, izip
 from itertools import tee
 
 
@@ -12,6 +15,7 @@ def pairwise(iterable):
     "s -> (s0,s1), (s1,s2), (s2, s3), ..."
     a, b = tee(iterable)
     next(b, None)
+    #return izip(a, b)
     return zip(a, b)
 
 
@@ -24,11 +28,13 @@ def peak_rms(data, window_size=480, limits=960):
     maxlimit = max([len(channel) for channel in data])
     max_so_far = 0
     for i in range(
-        max(index - limits, int(window_size / 2)),
-        min(index + limits, maxlimit - int(window_size / 2))
+        max(index - limits, (window_size / 2)),
+        min(index + limits, maxlimit - (window_size / 2))
     ):
         for channel in data:
-            window = channel[i - int(window_size / 2):i + int(window_size / 2)]
+            index1 = int(i - (window_size / 2))
+            index2 = int(i + (window_size / 2))
+            window = channel[index1:index2]
             if len(window) == 0:
                 raise Exception("Cannot take mean of empty slice! Channel "
                                 "size %d, index %d, window size %d" % (

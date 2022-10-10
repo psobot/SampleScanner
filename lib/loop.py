@@ -1,6 +1,7 @@
 import sys
 import numpy
 from tqdm import tqdm
+
 from .truncate import read_wave_file
 from .audio_helpers import fundamental_frequency
 
@@ -131,7 +132,13 @@ def fast_autocorrelate(x):
     f = numpy.fft.fft(xp)
     p = numpy.absolute(numpy.power(f, 2))
     pi = numpy.fft.ifft(p)
-    result = numpy.real(pi)[:x.size / 2] / numpy.sum(numpy.power(xp, 2))
+
+    index = int(x.size / 2)
+    top = numpy.real(pi)[:index]
+    bottom = numpy.sum(numpy.power(xp, 2))
+    result = top / bottom
+
+
     return result
 
 
@@ -164,7 +171,7 @@ def find_loop_from_autocorrelation(
     min_loop_width_in_seconds=0.2,
     sample_rate=48000
 ):
-    search_start /= 2
+    search_start = int(search_start/2)
     max_autocorrelation_peak_width = int(
         min_loop_width_in_seconds * sample_rate
     )

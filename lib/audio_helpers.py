@@ -2,7 +2,7 @@ import time
 import numpy
 from .utils import note_name, percent_to_db
 from .record import record
-from .constants import CLIPPING_THRESHOLD, \
+from .consts import CLIPPING_THRESHOLD, \
     CLIPPING_CHECK_NOTE, \
     EXIT_ON_CLIPPING, \
     SAMPLE_RATE
