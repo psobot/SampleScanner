@@ -9,7 +9,7 @@ from sfzparser import SFZFile
 from wavio import read_wave_file
 from utils import normalized
 from record import RATE, save_to_file
-from constants import bit_depth
+from consts import bit_depth
 
 
 def full_path(sfzfile, filename):

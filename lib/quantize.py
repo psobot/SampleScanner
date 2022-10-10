@@ -25,7 +25,7 @@ def quantize_pitch(regions, pitch_levels=25):
 
     # a dict of sample_pitch -> [lokey, hikey, pitch_keycenter]
     pitchmapping = {}
-    for key in xrange(
+    for key in range(
             lowestkey + (pitch_skip / 2),
             highestkey + 1 + (pitch_skip / 2),
             pitch_skip):
@@ -35,7 +35,7 @@ def quantize_pitch(regions, pitch_levels=25):
             'hikey': key + (pitch_skip / 2) - (0 if evenly_divided else 1),
         }
 
-    for key, regions in group_by_attr(regions, 'key').iteritems():
+    for key, regions in group_by_attr(regions, 'key').items():
         if int(key) in pitchmapping:
             for region in regions:
                 region.attributes.update(pitchmapping[int(key)])
@@ -55,7 +55,7 @@ def quantize_velocity(regions, velocity_levels=5):
 
     # a dict of sample_pitch -> [lokey, hikey, pitch_keycenter]
     pitchmapping = {}
-    for key in xrange(
+    for key in range(
             lowestkey + (pitch_skip / 2),
             highestkey + 1 + (pitch_skip / 2),
             pitch_skip):
@@ -65,7 +65,7 @@ def quantize_velocity(regions, velocity_levels=5):
             'hikey': key + (pitch_skip / 2) - (0 if evenly_divided else 1),
         }
 
-    for key, regions in group_by_attr(regions, 'key').iteritems():
+    for key, regions in group_by_attr(regions, 'key').items():
         if int(key) in pitchmapping:
             for region in regions:
                 region.attributes.update(pitchmapping[int(key)])

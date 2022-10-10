@@ -1,23 +1,24 @@
 import os
 import time
 from tqdm import tqdm
-from record import save_to_file, get_input_device_name_by_index
-from sfzparser import SFZFile, Region
-from pitch import compute_zones, Zone
-from utils import trim_data, \
+
+from .record import save_to_file, get_input_device_name_by_index
+from .sfzparser import SFZFile, Region
+from .pitch import compute_zones, Zone
+from .utils import trim_data, \
     note_name, \
     first_non_none, \
     warn_on_clipping
-from constants import bit_depth, SAMPLE_RATE
-from volume_leveler import level_volume
-from flacize import flacize_after_sampling
-from loop import find_loop_points
-from midi_helpers import Midi, all_notes_off, \
+from .consts import bit_depth, SAMPLE_RATE
+from .volume_leveler import level_volume
+from .flacize import flacize_after_sampling
+from .loop import find_loop_points
+from .midi_helpers import Midi, all_notes_off, \
     open_midi_port, \
     open_midi_port_by_index, \
     set_program_number, \
     CHANNEL_OFFSET
-from audio_helpers import sample_threshold_from_noise_floor, \
+from .audio_helpers import sample_threshold_from_noise_floor, \
     generate_sample, \
     check_for_clipping
 
@@ -244,7 +245,7 @@ def sample_program(
                 )
                 time.sleep(PORTAMENTO_PRESAMPLE_WAIT)
 
-            for attempt in xrange(0, MAX_ATTEMPTS):
+            for attempt in range(0, MAX_ATTEMPTS):
                 try:
                     region = generate_and_save_sample(
                         limit=limit,

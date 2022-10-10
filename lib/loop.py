@@ -1,8 +1,9 @@
 import sys
 import numpy
 from tqdm import tqdm
-from truncate import read_wave_file
-from audio_helpers import fundamental_frequency
+
+from .truncate import read_wave_file
+from .audio_helpers import fundamental_frequency
 
 QUANTIZE_FACTOR = 8
 
@@ -12,20 +13,20 @@ def compare_windows(window_a, window_b):
 
 
 def slide_window(file, period, start_at=0, end_before=0):
-    for power in reversed(xrange(7, 10)):
+    for power in reversed(range(7, 10)):
         multiple = 2 ** power
         window_size = int(period * multiple)
         # Uncomment this to search from the start_at value to the end_before
         # rather than just through one window's length
         # end_range = len(file) - (window_size * 2) - end_before
         end_range = start_at + window_size
-        for i in xrange(start_at, end_range):
+        for i in range(start_at, end_range):
             yield power, i, window_size
 
 
 def window_match(file):
     period = (1.0 / fundamental_frequency(file, 1)) * 2
-    print period, 'period in samples'
+    print(period, 'period in samples')
 
     winner = None
 
@@ -48,14 +49,14 @@ def window_match(file):
                 i,
                 abs(file[i] - file[window_start])
             )
-            print 'new winner', winner
+            print('new winner', winner)
 
     lowest_difference, winning_window_size, winning_index, gap = winner
 
-    print "Best loop match:", lowest_difference
-    print "window size", winning_window_size
-    print "winning index", winning_index
-    print "winning gap", gap
+    print("Best loop match:", lowest_difference)
+    print("window size", winning_window_size)
+    print("winning index", winning_index)
+    print("winning gap", gap)
     return winning_index, winning_window_size
 
 
@@ -71,7 +72,7 @@ def find_similar_sample_index(
 ):
     reference_slope = slope_at_index(file, reference_index) > 0
     best_match = None
-    search_range = xrange(
+    search_range = range(
         search_around_index - search_size,
         search_around_index + search_size
     )
@@ -93,12 +94,12 @@ def find_similar_sample_index(
 
 def zero_crossing_match(file):
     period = (1.0 / fundamental_frequency(file, 1)) * 2
-    print period, 'period in samples'
+    print(period, 'period in samples')
 
     period_multiple = 64
     period = period * period_multiple
 
-    for i in reversed(xrange(2 * len(file) / 3, 5 * len(file) / 6)):
+    for i in reversed(range(2 * len(file) / 3, 5 * len(file) / 6)):
         if file[i] >= 0 and file[i + 1] < 0 and \
                 file[int(i + period)] >= 0 and \
                 file[int(i + 1 + period)] < 0 and \
@@ -131,7 +132,13 @@ def fast_autocorrelate(x):
     f = numpy.fft.fft(xp)
     p = numpy.absolute(numpy.power(f, 2))
     pi = numpy.fft.ifft(p)
-    result = numpy.real(pi)[:x.size / 2] / numpy.sum(numpy.power(xp, 2))
+
+    index = int(x.size / 2)
+    top = numpy.real(pi)[:index]
+    bottom = numpy.sum(numpy.power(xp, 2))
+    result = top / bottom
+
+
     return result
 
 
@@ -164,7 +171,7 @@ def find_loop_from_autocorrelation(
     min_loop_width_in_seconds=0.2,
     sample_rate=48000
 ):
-    search_start /= 2
+    search_start = int(search_start/2)
     max_autocorrelation_peak_width = int(
         min_loop_width_in_seconds * sample_rate
     )
@@ -234,7 +241,7 @@ def process(aif, sample_rate=48000):
 
     file = file[0]
 
-    print 'start, end', loop_start, loop_end
+    print('start, end', loop_start, loop_end)
 
     plt.plot(file[loop_start:loop_end])
     plt.plot(file[loop_end:loop_start + (2 * loop_size)])

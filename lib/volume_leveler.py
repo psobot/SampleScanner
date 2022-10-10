@@ -1,18 +1,22 @@
 import numpy
 import argparse
-from constants import bit_depth
-from sfzparser import SFZFile, Group
-from wavio import read_wave_file
-from utils import group_by_attr
-from flacize import full_path
-from itertools import tee, izip
+
+from .consts import bit_depth
+from .sfzparser import SFZFile, Group
+from .wavio import read_wave_file
+from .utils import group_by_attr
+from .flacize import full_path
+
+#from itertools import tee, izip
+from itertools import tee
 
 
 def pairwise(iterable):
     "s -> (s0,s1), (s1,s2), (s2, s3), ..."
     a, b = tee(iterable)
     next(b, None)
-    return izip(a, b)
+    #return izip(a, b)
+    return zip(a, b)
 
 
 def max_amp(filename):
@@ -23,12 +27,14 @@ def peak_rms(data, window_size=480, limits=960):
     index = max([numpy.argmax(channel) for channel in data])
     maxlimit = max([len(channel) for channel in data])
     max_so_far = 0
-    for i in xrange(
+    for i in range(
         max(index - limits, (window_size / 2)),
         min(index + limits, maxlimit - (window_size / 2))
     ):
         for channel in data:
-            window = channel[i - (window_size / 2):i + (window_size / 2)]
+            index1 = int(i - (window_size / 2))
+            index2 = int(i + (window_size / 2))
+            window = channel[index1:index2]
             if len(window) == 0:
                 raise Exception("Cannot take mean of empty slice! Channel "
                                 "size %d, index %d, window size %d" % (
@@ -69,8 +75,8 @@ def level_volume(regions, dirname):
                 )
             )
         except ZeroDivisionError:
-            print "Got ZeroDivisionError with high sample path: %s" % \
-                high.attributes['sample']
+            print("Got ZeroDivisionError with high sample path: %s" % \
+                high.attributes['sample'])
             raise
         for attr in REMOVE_ATTRS:
             if attr in high.attributes:
@@ -105,5 +111,5 @@ if __name__ == "__main__":
     for filename in args.files:
         sfz = SFZFile(open(filename).read())
         regions = sum([group.regions for group in sfz.groups], [])
-        for key, regions in group_by_attr(regions, 'key').iteritems():
-            print level_volume(regions)
+        for key, regions in group_by_attr(regions, 'key').items():
+            print(level_volume(regions))

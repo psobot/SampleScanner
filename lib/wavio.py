@@ -3,7 +3,7 @@ import wave
 import numpy
 import subprocess
 
-from constants import NUMPY_DTYPE
+from .consts import NUMPY_DTYPE
 
 
 def read_flac_file(filename, use_numpy=False):
@@ -35,8 +35,8 @@ def read_wave_file(filename, use_numpy=False):
         else:
             return [
                 a[i::w.getnchannels()]
-                for i in xrange(w.getnchannels())
+                for i in range(w.getnchannels())
             ]
     except wave.Error:
-        print "Could not open %s" % filename
+        print("Could not open %s" % filename)
         raise

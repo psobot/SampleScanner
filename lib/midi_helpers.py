@@ -1,7 +1,6 @@
 import time
 import rtmidi
 
-
 CHANNEL_OFFSET = 0x90 - 1
 CC_CHANNEL_OFFSET = 0xB0 - 1
 
@@ -37,6 +36,7 @@ def all_notes_off(midiout, midi_channel):
 def open_midi_port(midi_port_name):
     midiout = rtmidi.MidiOut()
     ports = midiout.get_ports()
+
     for i, port_name in enumerate(ports):
         if not midi_port_name or midi_port_name.lower() in port_name.lower():
             midiout.open_port(i)
@@ -49,7 +49,7 @@ def open_midi_port(midi_port_name):
 
 def set_program_number(midiout, midi_channel, program_number):
     if program_number is not None:
-        print "Sending program change to program %d..." % program_number
+        print("Sending program change to program %d..." % program_number)
         # Bank change (fine) to (program_number / 128)
         midiout.send_message([
             CC_CHANNEL_OFFSET + midi_channel,
@@ -64,7 +64,7 @@ def set_program_number(midiout, midi_channel, program_number):
         ])
 
     # All notes off, but like, a lot
-    for _ in xrange(0, 2):
+    for _ in range(0, 2):
         all_notes_off(midiout, midi_channel)
 
     time.sleep(0.5)

@@ -64,7 +64,7 @@ class Group(object):
     def just_group(self):
         return "\n".join(
             ["<group>"] +
-            ['%s=%s' % (k, v) for k, v in self.attributes.iteritems()]
+            ['%s=%s' % (k, v) for k, v in self.attributes.items()]
         )
 
     def __repr__(self):
@@ -91,7 +91,7 @@ class Region(object):
     def __str__(self):
         return "\n".join(
             ["<region>"] +
-            ['%s=%s' % (k, v) for k, v in self.attributes.iteritems()]
+            ['%s=%s' % (k, v) for k, v in self.attributes.items()]
         )
 
     def exists(self, root=None):
@@ -103,7 +103,7 @@ class Region(object):
     def without_attributes(self, discard=lambda x: False):
         return Region(dict([
             (k, v)
-            for k, v in self.attributes.iteritems()
+            for k, v in self.attributes.items()
             if not discard(k)
         ]))
 
@@ -111,7 +111,7 @@ class Region(object):
         return Region(dict(
             (k, v)
             for d in [self.attributes, other_attrs]
-            for k, v in d.iteritems()
+            for k, v in d.items()
         ))
 
 
@@ -125,4 +125,4 @@ if __name__ == "__main__":
     for fn in args.files:
         file = SFZFile(open(fn).read())
         for group in file.groups:
-            print group
+            print(group)
